@@ -1,5 +1,8 @@
 package com.hat.hereandthere.tourservice.domains.place;
 
+import static com.hat.hereandthere.tourservice.common.exception.BaseExceptionStatus.PLACE_NOT_FOUND;
+
+import com.hat.hereandthere.tourservice.common.exception.BaseException;
 import com.hat.hereandthere.tourservice.domains.place.entity.Place;
 import com.hat.hereandthere.tourservice.domains.place.model.dto.GetPlacesPageDto;
 import java.util.List;
@@ -16,6 +19,10 @@ public class PlaceService {
     public GetPlacesPageDto getPlacesPage(Pageable pageable) {
         Page<Place> placePage = placeRepository.findAll(pageable);
         List<Place> places = placePage.getContent();
+
+        if (places.isEmpty()) {
+            throw new BaseException(PLACE_NOT_FOUND);
+        }
 
         return GetPlacesPageDto.builder()
             .places(places.stream().map(place -> GetPlacesPageDto.Place.builder()
