@@ -45,6 +45,8 @@ public class Place {
     private Time openingHours;
 
     @Column
-
     private Time closingHours;
+
+    @Column(columnDefinition = "TEXT")
+    private String address;
 }
