@@ -9,8 +9,11 @@ import jakarta.persistence.IdClass;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinColumns;
 import jakarta.persistence.ManyToOne;
+import java.sql.Time;
+import java.util.Date;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.ColumnDefault;
 
 @Entity(name = "place")
 @Getter
@@ -31,4 +34,17 @@ public class Place {
 
     @Column(columnDefinition = "TEXT")
     private String imageUrl;
+
+    @Column
+    private String name;
+
+    @Column
+    private String contact;
+
+    @Column
+    private Time openingHours;
+
+    @Column
+
+    private Time closingHours;
 }
