@@ -57,6 +57,7 @@ public class PlaceService {
                 .id(place.get().getSigungu().getId())
                 .name(place.get().getSigungu().getName())
                 .build())
+            .address(place.get().getAddress())
             .build();
     }
 }

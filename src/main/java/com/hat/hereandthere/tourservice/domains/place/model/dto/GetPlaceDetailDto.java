@@ -15,6 +15,7 @@ public class GetPlaceDetailDto {
     private Time closingHours;
     private Area area;
     private Sigungu sigungu;
+    private String address;
 
     @Data
     @Builder

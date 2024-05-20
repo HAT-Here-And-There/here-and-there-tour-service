@@ -16,6 +16,7 @@ public class GetPlaceDetailRes {
     private Time closingHours;
     private String areaName;
     private String sigunguName;
+    private String address;
 
     public static GetPlaceDetailRes from(GetPlaceDetailDto dto) {
         return GetPlaceDetailRes.builder()
@@ -27,6 +28,7 @@ public class GetPlaceDetailRes {
             .closingHours(dto.getClosingHours())
             .areaName(dto.getArea().getName())
             .sigunguName(dto.getSigungu().getName())
+            .address(dto.getAddress())
             .build();
     }
 }
