@@ -13,7 +13,7 @@ public class GetPlacesPageDto {
     @Data
     @Builder
     public static class Place {
-        private Long id;
+        private String id;
         private String imageUrl;
     }
 }

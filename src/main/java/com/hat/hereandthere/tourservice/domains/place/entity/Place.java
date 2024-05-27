@@ -11,6 +11,7 @@ import jakarta.persistence.JoinColumns;
 import jakarta.persistence.ManyToOne;
 import java.sql.Time;
 import java.util.Date;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
@@ -21,8 +22,7 @@ import org.hibernate.annotations.ColumnDefault;
 @IdClass(PlaceId.class)
 public class Place {
     @Id
-    @GeneratedValue(strategy = jakarta.persistence.GenerationType.IDENTITY)
-    private Long id;
+    private String id;
 
     @ManyToOne
     @JoinColumns({
@@ -49,4 +49,16 @@ public class Place {
 
     @Column(columnDefinition = "TEXT")
     private String address;
+
+    @Builder
+    public Place(String id, Sigungu sigungu, String imageUrl, String name, String contact, Time openingHours, Time closingHours, String address) {
+        this.id = id;
+        this.sigungu = sigungu;
+        this.imageUrl = imageUrl;
+        this.name = name;
+        this.contact = contact;
+        this.openingHours = openingHours;
+        this.closingHours = closingHours;
+        this.address = address;
+    }
 }

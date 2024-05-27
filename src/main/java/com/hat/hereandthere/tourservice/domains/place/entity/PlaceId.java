@@ -9,6 +9,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Getter
 public class PlaceId implements java.io.Serializable{
-    private Long id;
+    private String id;
     private SigunguId sigungu;
 }

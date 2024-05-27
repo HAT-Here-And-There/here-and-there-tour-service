@@ -30,7 +30,7 @@ public class PlaceController {
     }
 
     @GetMapping("/{placeId}")
-    public ResponseEntity<GetPlaceDetailRes> getPlaceDetail(@PathVariable Long placeId) {
+    public ResponseEntity<GetPlaceDetailRes> getPlaceDetail(@PathVariable String placeId) {
         GetPlaceDetailDto dto = placeService.getPlaceDetail(placeId);
 
         GetPlaceDetailRes res = GetPlaceDetailRes.from(dto);

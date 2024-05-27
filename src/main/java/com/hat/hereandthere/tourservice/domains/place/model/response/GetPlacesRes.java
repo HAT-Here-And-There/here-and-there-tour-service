@@ -15,7 +15,7 @@ public class GetPlacesRes {
     @Builder
     @Data
     public static class Place {
-        private Long id;
+        private String id;
         private String imageUrl;
     }
 
