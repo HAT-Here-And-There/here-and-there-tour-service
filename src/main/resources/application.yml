@@ -15,3 +15,6 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
+tour-api:
+  key: ${TOUR_API_KEY}
+  url: ${TOUR_API_URL}

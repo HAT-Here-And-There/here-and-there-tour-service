@@ -7,7 +7,7 @@ import lombok.Data;
 @Data
 @Builder
 public class GetPlaceDetailDto {
-    private Long id;
+    private String id;
     private String name;
     private String imageUrl;
     private String contact;
@@ -20,14 +20,14 @@ public class GetPlaceDetailDto {
     @Data
     @Builder
     public static class Area {
-        private Long id;
+        private String id;
         private String name;
     }
 
     @Data
     @Builder
     public static class Sigungu {
-        private Long id;
+        private String id;
         private String name;
     }
 }

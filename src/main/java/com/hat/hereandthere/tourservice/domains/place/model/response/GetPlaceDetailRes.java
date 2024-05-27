@@ -8,7 +8,7 @@ import lombok.Data;
 @Data
 @Builder
 public class GetPlaceDetailRes {
-    private Long id;
+    private String id;
     private String name;
     private String imageUrl;
     private String contact;

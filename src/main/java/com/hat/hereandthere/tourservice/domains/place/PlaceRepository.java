@@ -9,5 +9,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface PlaceRepository extends JpaRepository<Place, PlaceId>{
     Page<Place> findAll(Pageable pageable);
-    Optional<Place> findById(Long placeId);
+    Optional<Place> findById(String placeId);
 }

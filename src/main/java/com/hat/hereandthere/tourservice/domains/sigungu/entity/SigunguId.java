@@ -8,6 +8,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Getter
 public class SigunguId implements java.io.Serializable{
-    private Long id;
-    private Long area;
+    private String id;
+    private String area;
 }
