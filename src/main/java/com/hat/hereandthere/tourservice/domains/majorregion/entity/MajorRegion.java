@@ -20,6 +20,7 @@ public class MajorRegion {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
+  @Column
   private String name;
 
   @Column(columnDefinition = "TEXT")
