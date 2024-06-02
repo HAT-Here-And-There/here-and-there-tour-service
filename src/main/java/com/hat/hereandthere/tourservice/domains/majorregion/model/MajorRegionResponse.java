@@ -7,7 +7,7 @@ public record MajorRegionResponse(
     long id,
     String name,
     String imageUrl,
-    List<SigunguResponse> sigunguList
+    List<SigunguResponse> sigungu
 ) {
 
   public static MajorRegionResponse fromDTO(GetMajorRegionDto getMajorRegionDto) {
