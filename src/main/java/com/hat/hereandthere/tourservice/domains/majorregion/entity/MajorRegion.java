@@ -9,9 +9,11 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import java.util.List;
 import lombok.Getter;
+import lombok.ToString;
 
 @Entity(name = "major_region")
 @Getter
+@ToString
 public class MajorRegion {
 
   @Id
