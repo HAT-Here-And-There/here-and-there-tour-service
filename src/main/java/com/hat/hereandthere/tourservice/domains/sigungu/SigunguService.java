@@ -13,8 +13,6 @@ public class SigunguService {
     private final SigunguRepository sigunguRepository;
 
     public Sigungu getSigunguById(String sigunguId, String areaId) {
-        com.hat.hereandthere.tourservice.domains.sigungu.entity.Sigungu sigungu = sigunguRepository.findByUniqueId(sigunguId, areaId).orElseThrow(() -> new BaseException(SIGUNGU_NOT_FOUND));
-
-        return sigungu;
+        return sigunguRepository.findByUniqueId(sigunguId, areaId).orElseThrow(() -> new BaseException(SIGUNGU_NOT_FOUND));
     }
 }

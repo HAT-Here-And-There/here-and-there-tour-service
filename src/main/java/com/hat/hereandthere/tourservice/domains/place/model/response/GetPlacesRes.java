@@ -16,6 +16,7 @@ public class GetPlacesRes {
     @Data
     public static class Place {
         private String id;
+        private String name;
         private String imageUrl;
     }
 
@@ -23,6 +24,7 @@ public class GetPlacesRes {
         List<Place> places = dto.getPlaces().stream()
             .map(place -> Place.builder()
                 .id(place.getId())
+                .name(place.getName())
                 .imageUrl(place.getImageUrl())
                 .build())
             .collect(Collectors.toList());

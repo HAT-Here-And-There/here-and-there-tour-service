@@ -14,6 +14,7 @@ public class GetPlacesPageDto {
     @Builder
     public static class Place {
         private String id;
+        private String name;
         private String imageUrl;
     }
 }
