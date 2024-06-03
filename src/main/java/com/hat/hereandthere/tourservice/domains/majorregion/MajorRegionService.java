@@ -6,10 +6,8 @@ import com.hat.hereandthere.tourservice.domains.majorregion.entity.MajorRegion;
 import com.hat.hereandthere.tourservice.domains.majorregion.model.GetMajorRegionDto;
 import com.hat.hereandthere.tourservice.domains.majorregion.model.GetMajorRegionDto.SigunguDto;
 import java.util.List;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-@Slf4j
 @Service
 public class MajorRegionService {
 

@@ -1,6 +1,7 @@
 package com.hat.hereandthere.tourservice.domains.place;
 
 import static com.hat.hereandthere.tourservice.common.exception.BaseExceptionStatus.PLACE_NOT_FOUND;
+
 import com.hat.hereandthere.tourservice.common.exception.BaseException;
 import com.hat.hereandthere.tourservice.domains.area.AreaService;
 import com.hat.hereandthere.tourservice.domains.area.entity.Area;
@@ -11,6 +12,7 @@ import com.hat.hereandthere.tourservice.domains.place.model.dto.GetPlacesPageDto
 import com.hat.hereandthere.tourservice.domains.place.model.dto.GetPlaceswithPageDto;
 import com.hat.hereandthere.tourservice.domains.place.model.response.TourApiGetPlacesPageRes;
 import com.hat.hereandthere.tourservice.domains.place.model.response.TourApiGetPlacesPageRes.Item;
+import com.hat.hereandthere.tourservice.domains.sigungu.SigunguRepository;
 import com.hat.hereandthere.tourservice.domains.sigungu.SigunguService;
 import jakarta.transaction.Transactional;
 import java.sql.Time;
@@ -33,6 +35,8 @@ import org.springframework.web.reactive.function.client.WebClient;
 public class PlaceService {
     private final PlaceRepository placeRepository;
     private final PlaceSyncHistoryRepository placeSyncHistoryRepository;
+    private final SigunguRepository sigunguRepository;
+
     private final WebClient tourApiWebClient;
     private final String DEFAULT_REQUIRED_QUERY_STRING = "MobileOS={MobileOS}&MobileApp={MobileApp}&_type={_type}&serviceKey={serviceKey}";
     private final String MOCK_IMAGE_URL = "https://images.pexels.com/photos/346885/pexels-photo-346885.jpeg?auto=compress&cs=tinysrgb&w=800";
@@ -52,6 +56,43 @@ public class PlaceService {
         return GetPlacesPageDto.builder()
             .places(places.stream().map(place -> GetPlacesPageDto.Place.builder()
                 .id(place.getId())
+                .imageUrl(place.getImageUrl())
+                .build()).toList())
+            .totalPages(placePage.getTotalPages())
+            .build();
+    }
+
+    public GetPlacesPageDto getPlacesPageDtoByMajorRegionId(Long majorRegionId, Pageable pageable) {
+        final List<com.hat.hereandthere.tourservice.domains.sigungu.entity.Sigungu> sigunguList = sigunguRepository.findAllByMajorRegionId(majorRegionId);
+        final Page<Place> placePage = placeRepository.findAllBySigunguIn(sigunguList, pageable);
+        final List<Place> places = placePage.getContent();
+
+        if (places.isEmpty()) {
+            throw new BaseException(PLACE_NOT_FOUND);
+        }
+
+        return GetPlacesPageDto.builder()
+            .places(places.stream().map(place -> GetPlacesPageDto.Place.builder()
+                .id(place.getId())
+                .name(place.getName())
+                .imageUrl(place.getImageUrl())
+                .build()).toList())
+            .totalPages(placePage.getTotalPages())
+            .build();
+    }
+
+    public GetPlacesPageDto getPlacesPageDtoBySigungu(String areaId, String sigunguId, Pageable pageable) {
+        final Page<Place> placePage = placeRepository.findAllBySigungu(areaId, sigunguId, pageable);
+        final List<Place> places = placePage.getContent();
+
+        if (places.isEmpty()) {
+            throw new BaseException(PLACE_NOT_FOUND);
+        }
+
+        return GetPlacesPageDto.builder()
+            .places(places.stream().map(place -> GetPlacesPageDto.Place.builder()
+                .id(place.getId())
+                .name(place.getName())
                 .imageUrl(place.getImageUrl())
                 .build()).toList())
             .totalPages(placePage.getTotalPages())
