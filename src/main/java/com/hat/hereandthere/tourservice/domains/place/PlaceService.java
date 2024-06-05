@@ -56,6 +56,7 @@ public class PlaceService {
         return GetPlacesPageDto.builder()
             .places(places.stream().map(place -> GetPlacesPageDto.Place.builder()
                 .id(place.getId())
+                .name(place.getName())
                 .imageUrl(place.getImageUrl())
                 .build()).toList())
             .totalPages(placePage.getTotalPages())

@@ -11,6 +11,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 public interface PlaceRepository extends JpaRepository<Place, PlaceId>{
+    @Query("select p from place p join fetch p.sigungu s join fetch s.majorRegion")
     Page<Place> findAll(Pageable pageable);
 
     Optional<Place> findById(String placeId);
