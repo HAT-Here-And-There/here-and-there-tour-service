@@ -46,6 +46,13 @@ jobs:
         with:
           cmd: yq eval -i '.image.tag = env(IMAGE_TAG)' 'application-helm/tour-service/values.yaml'
 
+      - name: Replace image tag in helm values
+        uses: mikefarah/yq@master
+        env:
+          IMAGE_TAG: ${{ github.sha }}
+        with:
+          cmd: yq eval -i '.image.tag = env(IMAGE_TAG)' 'application-helm/tour-service/values-aws.yaml'
+
       - name: Git config
         env:
           IMAGE_TAG: ${{ github.sha }}
@@ -54,6 +61,7 @@ jobs:
           git config --global user.name "DeployBot"
           
           git add application-helm/tour-service/values.yaml
+          git add application-helm/tour-service/values-aws.yaml
           git commit --message "Deploy: update image tag to $IMAGE_TAG"
           git push --set-upstream origin main
 
