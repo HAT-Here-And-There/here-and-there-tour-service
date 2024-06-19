@@ -53,7 +53,7 @@ jobs:
           git config --global user.email "deploy@hat.com"
           git config --global user.name "DeployBot"
           
-          git add application-helm/tour-service/values.yaml
+          git add application-helm/tour-service/values-aws.yaml
           git commit --message "Deploy: update image tag to $IMAGE_TAG"
           git push --set-upstream origin main
 #
