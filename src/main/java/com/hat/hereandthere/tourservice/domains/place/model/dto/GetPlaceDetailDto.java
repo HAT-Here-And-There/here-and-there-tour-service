@@ -1,8 +1,9 @@
 package com.hat.hereandthere.tourservice.domains.place.model.dto;
 
-import java.sql.Time;
 import lombok.Builder;
 import lombok.Data;
+
+import java.sql.Time;
 
 @Data
 @Builder
