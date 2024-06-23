@@ -49,10 +49,6 @@ public class PlaceService {
         Page<Place> placePage = placeRepository.findAll(pageable);
         List<Place> places = placePage.getContent();
 
-        if (places.isEmpty()) {
-            throw new BaseException(PLACE_NOT_FOUND);
-        }
-
         return GetPlacesPageDto.builder()
             .places(places.stream().map(place -> GetPlacesPageDto.Place.builder()
                 .id(place.getId())
