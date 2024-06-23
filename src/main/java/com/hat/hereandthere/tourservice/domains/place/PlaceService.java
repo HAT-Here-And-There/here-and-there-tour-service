@@ -49,10 +49,6 @@ public class PlaceService {
         Page<Place> placePage = placeRepository.findAll(pageable);
         List<Place> places = placePage.getContent();
 
-        if (places.isEmpty()) {
-            throw new BaseException(PLACE_NOT_FOUND);
-        }
-
         return GetPlacesPageDto.builder()
             .places(places.stream().map(place -> GetPlacesPageDto.Place.builder()
                 .id(place.getId())
@@ -68,10 +64,6 @@ public class PlaceService {
         final Page<Place> placePage = placeRepository.findAllBySigunguIn(sigunguList, pageable);
         final List<Place> places = placePage.getContent();
 
-        if (places.isEmpty()) {
-            throw new BaseException(PLACE_NOT_FOUND);
-        }
-
         return GetPlacesPageDto.builder()
             .places(places.stream().map(place -> GetPlacesPageDto.Place.builder()
                 .id(place.getId())
@@ -85,10 +77,6 @@ public class PlaceService {
     public GetPlacesPageDto getPlacesPageDtoBySigungu(String areaId, String sigunguId, Pageable pageable) {
         final Page<Place> placePage = placeRepository.findAllBySigungu(areaId, sigunguId, pageable);
         final List<Place> places = placePage.getContent();
-
-        if (places.isEmpty()) {
-            throw new BaseException(PLACE_NOT_FOUND);
-        }
 
         return GetPlacesPageDto.builder()
             .places(places.stream().map(place -> GetPlacesPageDto.Place.builder()
