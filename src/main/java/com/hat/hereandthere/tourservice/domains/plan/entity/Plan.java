@@ -1,13 +1,19 @@
 package com.hat.hereandthere.tourservice.domains.plan.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
-import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 
 @Getter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 public class Plan {
     @Id
@@ -18,15 +24,16 @@ public class Plan {
     private String name;
 
     @Column(nullable = false)
-    private Date startDate;
+    private LocalDate startDate;
 
     @Column(nullable = false)
-    private Date endDate;
+    private LocalDate endDate;
 
     @Column(nullable = false)
     private Long userId;
 
     @OneToMany(mappedBy = "plan", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<DailyPlan> dailyPlans;
+
 
 }

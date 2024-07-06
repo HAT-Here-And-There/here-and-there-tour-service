@@ -19,12 +19,12 @@ public class Place {
     @Id
     private String id;
 
+    @Id
     @ManyToOne
     @JoinColumns({
-        @JoinColumn(name = "sigungu_id", referencedColumnName = "id"),
-        @JoinColumn(name = "area_id", referencedColumnName = "area_id")
+            @JoinColumn(name = "sigungu_id", referencedColumnName = "id"),
+            @JoinColumn(name = "area_id", referencedColumnName = "area_id")
     })
-    @Id
     private Sigungu sigungu;
 
     @Column(columnDefinition = "TEXT")
