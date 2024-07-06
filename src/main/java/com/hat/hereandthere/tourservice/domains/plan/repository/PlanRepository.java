@@ -1,4 +1,4 @@
-package com.hat.hereandthere.tourservice.domains.plan;
+package com.hat.hereandthere.tourservice.domains.plan.repository;
 
 import com.hat.hereandthere.tourservice.domains.plan.entity.Plan;
 import org.springframework.data.jpa.repository.JpaRepository;
