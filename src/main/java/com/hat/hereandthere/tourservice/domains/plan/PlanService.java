@@ -12,7 +12,6 @@ import com.hat.hereandthere.tourservice.domains.plan.repository.DailyPlanItemRep
 import com.hat.hereandthere.tourservice.domains.plan.repository.DailyPlanRepository;
 import com.hat.hereandthere.tourservice.domains.plan.repository.PlanRepository;
 import lombok.AllArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
@@ -20,7 +19,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-@Slf4j
 @AllArgsConstructor
 @Service
 public class PlanService {
@@ -115,10 +113,7 @@ public class PlanService {
                 throw new IllegalArgumentException();
             }
 
-            log.warn("{}", optionalPlace.get());
-            Place p = optionalPlace.get();
-            log.warn("{}", p.getSigungu());
-
+            final Place place = optionalPlace.get();
 
             final DailyPlanItem newItem = DailyPlanItem.builder()
                     .place(optionalPlace.get())
