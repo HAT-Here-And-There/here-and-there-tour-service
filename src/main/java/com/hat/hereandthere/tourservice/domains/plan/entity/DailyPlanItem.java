@@ -14,8 +14,7 @@ public class DailyPlanItem {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-
-    @ManyToOne(targetEntity = Place.class)
+    @ManyToOne
     private Place place;
 
     @Column(columnDefinition = "text")
@@ -25,7 +24,7 @@ public class DailyPlanItem {
     @JoinColumn(name = "daily_plan_id")
     private DailyPlan dailyPlan;
 
-    @OneToOne()
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "next")
     private DailyPlanItem nextItem;
 

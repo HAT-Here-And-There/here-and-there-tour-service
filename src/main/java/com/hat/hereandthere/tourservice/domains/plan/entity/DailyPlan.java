@@ -3,11 +3,13 @@ package com.hat.hereandthere.tourservice.domains.plan.entity;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 import java.util.List;
 
+@Getter
 @Entity(name = "daily_plan")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class DailyPlan {

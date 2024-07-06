@@ -6,6 +6,7 @@ import com.hat.hereandthere.tourservice.domains.plan.entity.DailyPlan;
 import com.hat.hereandthere.tourservice.domains.plan.entity.DailyPlanItem;
 import com.hat.hereandthere.tourservice.domains.plan.entity.Plan;
 import com.hat.hereandthere.tourservice.domains.plan.model.dto.CreatePlanDto;
+import com.hat.hereandthere.tourservice.domains.plan.model.dto.GetPlanDetailDto;
 import com.hat.hereandthere.tourservice.domains.plan.model.dto.GetPlanDto;
 import com.hat.hereandthere.tourservice.domains.plan.repository.DailyPlanItemRepository;
 import com.hat.hereandthere.tourservice.domains.plan.repository.DailyPlanRepository;
@@ -18,7 +19,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.concurrent.atomic.AtomicInteger;
 
 @Slf4j
 @AllArgsConstructor
@@ -56,6 +56,33 @@ public class PlanService {
         createDailyPlan(dto.dailyPlans(), newPlan);
 
         return plan.getId();
+    }
+
+    public GetPlanDetailDto getPlan(Long planId) {
+        final Optional<Plan> optionalPlan = planRepository.findById(planId);
+
+        if (optionalPlan.isEmpty()) {
+            throw new IllegalArgumentException();
+        }
+
+        final Plan plan = optionalPlan.get();
+
+        return new GetPlanDetailDto(
+                plan.getId(),
+                plan.getName(),
+                plan.getStartDate().toString(),
+                plan.getEndDate().toString(),
+                plan
+                        .getDailyPlans()
+                        .stream()
+                        .map(e -> new GetPlanDetailDto.DailyPlanDto(
+                                        e.getId(),
+                                        e.getDate().toString(),
+                                        e.getDayNumber(),
+                                        sortDailyPlanItems(e.getDailyPlanItems())
+                                )
+                        ).toList()
+        );
     }
 
     private void createDailyPlan(List<CreatePlanDto.CreatePlanDtoDailyPlan> dailyPlanDtoList, Plan plan) {
@@ -106,4 +133,45 @@ public class PlanService {
         }
     }
 
+
+    private List<GetPlanDetailDto.DailyPlanItemDto> sortDailyPlanItems(List<DailyPlanItem> dailyPlanItems) {
+        final List<GetPlanDetailDto.DailyPlanItemDto> sortedDailyPlanItems = new ArrayList<>();
+
+        for (DailyPlanItem dailyPlanItem : dailyPlanItems) {
+            int index = 0;
+            final boolean isAlreadyAdded = sortedDailyPlanItems
+                    .stream()
+                    .map(GetPlanDetailDto.DailyPlanItemDto::id)
+                    .toList()
+                    .contains(dailyPlanItem.getId());
+
+            if (isAlreadyAdded) {
+                continue;
+            }
+
+            do {
+                sortedDailyPlanItems.add(index, new GetPlanDetailDto.DailyPlanItemDto(
+                        dailyPlanItem.getId(),
+                        dailyPlanItem.getMemo(),
+                        new GetPlanDetailDto.DailyPlanItemPlaceDto(
+                                dailyPlanItem.getPlace().getId(),
+                                dailyPlanItem.getPlace().getName(),
+                                dailyPlanItem.getPlace().getImageUrl()
+                        )
+                ));
+
+                dailyPlanItem = dailyPlanItem.getNextItem();
+                index++;
+
+
+            } while (dailyPlanItem != null && !sortedDailyPlanItems
+                    .stream()
+                    .map(GetPlanDetailDto.DailyPlanItemDto::id)
+                    .toList()
+                    .contains(dailyPlanItem.getId())
+            );
+        }
+
+        return sortedDailyPlanItems;
+    }
 }

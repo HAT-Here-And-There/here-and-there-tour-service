@@ -1,8 +1,10 @@
 package com.hat.hereandthere.tourservice.domains.plan;
 
 import com.hat.hereandthere.tourservice.domains.plan.model.dto.CreatePlanDto;
+import com.hat.hereandthere.tourservice.domains.plan.model.dto.GetPlanDetailDto;
 import com.hat.hereandthere.tourservice.domains.plan.model.dto.GetPlanDto;
 import com.hat.hereandthere.tourservice.domains.plan.model.request.PostPlanRequest;
+import com.hat.hereandthere.tourservice.domains.plan.model.response.PostPlanResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,13 +20,17 @@ public class PlanController {
 
     @GetMapping
     public ResponseEntity<List<GetPlanDto>> getPlans() {
-
         return ResponseEntity.ok(planService.getUserPlans(1L));
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<GetPlanDetailDto> getPlan(@PathVariable Long id) {
+        return ResponseEntity.ok(planService.getPlan(id));
     }
 
     @PostMapping
     public ResponseEntity<Object> postPlan(@RequestBody PostPlanRequest request) {
-        planService.createPlan(
+        final Long createdPlanId = planService.createPlan(
                 new CreatePlanDto(
                         request.name(),
                         request.startDate(),
@@ -39,6 +45,6 @@ public class PlanController {
                 )
         );
 
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+        return ResponseEntity.status(HttpStatus.CREATED).body(new PostPlanResponse(createdPlanId));
     }
 }
