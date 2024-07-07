@@ -14,7 +14,6 @@ import com.hat.hereandthere.tourservice.domains.plan.repository.DailyPlanReposit
 import com.hat.hereandthere.tourservice.domains.plan.repository.PlanRepository;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -22,7 +21,6 @@ import java.util.List;
 import java.util.Optional;
 
 
-@Slf4j
 @AllArgsConstructor
 @Service
 public class PlanService {
@@ -98,7 +96,7 @@ public class PlanService {
         final Plan plan = optionalPlan.get();
 
         dailyPlanRepository.deleteAllInBatch(plan.getDailyPlans());
-        
+
         createDailyPlan(
                 patchPlanDto
                         .dailyPlans()
