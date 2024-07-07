@@ -1,10 +1,12 @@
 package com.hat.hereandthere.tourservice.domains.plan.model.dto;
 
 
+import java.time.LocalDate;
+
 public record GetPlanDto(
         Long id,
         String name,
-        String startDate,
-        String endDate
+        LocalDate startDate,
+        LocalDate endDate
 ) {
 }
