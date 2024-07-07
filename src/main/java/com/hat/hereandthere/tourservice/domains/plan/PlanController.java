@@ -3,6 +3,7 @@ package com.hat.hereandthere.tourservice.domains.plan;
 import com.hat.hereandthere.tourservice.domains.plan.model.dto.CreatePlanDto;
 import com.hat.hereandthere.tourservice.domains.plan.model.dto.GetPlanDetailDto;
 import com.hat.hereandthere.tourservice.domains.plan.model.dto.GetPlanDto;
+import com.hat.hereandthere.tourservice.domains.plan.model.request.PatchPlanRequest;
 import com.hat.hereandthere.tourservice.domains.plan.model.request.PostPlanRequest;
 import com.hat.hereandthere.tourservice.domains.plan.model.response.PostPlanResponse;
 import lombok.RequiredArgsConstructor;
@@ -29,7 +30,7 @@ public class PlanController {
     }
 
     @PostMapping
-    public ResponseEntity<Object> postPlan(@RequestBody PostPlanRequest request) {
+    public ResponseEntity<PostPlanResponse> postPlan(@RequestBody PostPlanRequest request) {
         final Long createdPlanId = planService.createPlan(
                 new CreatePlanDto(
                         request.name(),
@@ -47,4 +48,11 @@ public class PlanController {
 
         return ResponseEntity.status(HttpStatus.CREATED).body(new PostPlanResponse(createdPlanId));
     }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<Object> patchPlan(@PathVariable Long id, @RequestBody PatchPlanRequest request) {
+        planService.updatePlan(id, request);
+        return ResponseEntity.ok().build();
+    }
+
 }

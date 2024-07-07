@@ -5,6 +5,8 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -28,9 +30,8 @@ public class DailyPlan {
     @JoinColumn(name = "plan_id")
     private Plan plan;
 
-    @OneToMany(
-            mappedBy = "dailyPlan",
-            cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "dailyPlan")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private List<DailyPlanItem> dailyPlanItems;
 
     @Builder
