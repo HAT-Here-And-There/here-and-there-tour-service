@@ -8,16 +8,18 @@ import com.hat.hereandthere.tourservice.domains.plan.entity.Plan;
 import com.hat.hereandthere.tourservice.domains.plan.model.dto.CreatePlanDto;
 import com.hat.hereandthere.tourservice.domains.plan.model.dto.GetPlanDetailDto;
 import com.hat.hereandthere.tourservice.domains.plan.model.dto.GetPlanDto;
+import com.hat.hereandthere.tourservice.domains.plan.model.request.PatchPlanRequest;
 import com.hat.hereandthere.tourservice.domains.plan.repository.DailyPlanItemRepository;
 import com.hat.hereandthere.tourservice.domains.plan.repository.DailyPlanRepository;
 import com.hat.hereandthere.tourservice.domains.plan.repository.PlanRepository;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
 
 @AllArgsConstructor
 @Service
@@ -28,19 +30,19 @@ public class PlanService {
     private final PlaceRepository placeRepository;
 
     public List<GetPlanDto> getUserPlans(Long userId) {
-        final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
         return planRepository
                 .getPlansByUserId(userId)
                 .stream().map(e -> new GetPlanDto(
                                 e.getId(),
                                 e.getName(),
-                                simpleDateFormat.format(e.getStartDate()),
-                                simpleDateFormat.format(e.getEndDate())
+                                e.getStartDate(),
+                                e.getEndDate()
                         )
                 ).toList();
 
     }
 
+    @Transactional
     public Long createPlan(CreatePlanDto dto) {
         Plan plan = Plan.builder()
                 .name(dto.name())
@@ -68,18 +70,45 @@ public class PlanService {
         return new GetPlanDetailDto(
                 plan.getId(),
                 plan.getName(),
-                plan.getStartDate().toString(),
-                plan.getEndDate().toString(),
+                plan.getStartDate(),
+                plan.getEndDate(),
                 plan
                         .getDailyPlans()
                         .stream()
                         .map(e -> new GetPlanDetailDto.DailyPlanDto(
                                         e.getId(),
-                                        e.getDate().toString(),
+                                        e.getDate(),
                                         e.getDayNumber(),
                                         sortDailyPlanItems(e.getDailyPlanItems())
                                 )
                         ).toList()
+        );
+    }
+
+    @Transactional
+    public void updatePlan(Long planId, PatchPlanRequest patchPlanDto) {
+        final Optional<Plan> optionalPlan = planRepository.findById(planId);
+
+        if (optionalPlan.isEmpty()) {
+            throw new IllegalArgumentException();
+        }
+
+        final Plan plan = optionalPlan.get();
+
+        dailyPlanRepository.deleteAllInBatch(plan.getDailyPlans());
+
+        createDailyPlan(
+                patchPlanDto
+                        .dailyPlans()
+                        .stream()
+                        .map(e -> new CreatePlanDto.CreatePlanDtoDailyPlan(
+                                e.dailyPlanItems().stream().map(i -> new CreatePlanDto.CreatePlanDtoDailyPlanItem(
+                                        i.placeId(),
+                                        i.memo()
+                                )).toList()
+                        ))
+                        .toList(),
+                plan
         );
     }
 

@@ -1,17 +1,18 @@
 package com.hat.hereandthere.tourservice.domains.plan.model.dto;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public record GetPlanDetailDto(
         Long id,
         String name,
-        String startDate,
-        String endDate,
+        LocalDate startDate,
+        LocalDate endDate,
         List<DailyPlanDto> dailyPlans
 ) {
     public record DailyPlanDto(
             Long id,
-            String date,
+            LocalDate date,
             int dayNumber,
             List<DailyPlanItemDto> dailyPlanItems
     ) {
