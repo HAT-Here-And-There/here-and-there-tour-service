@@ -1,3 +1,5 @@
+server:
+  port: 8081
 spring:
   application:
     name: tour-service
@@ -26,4 +28,4 @@ tour-api:
   url: ${TOUR_API_URL}
 
 chat-service:
-  url: http://chat-service-aws
+  url: localhost:8080

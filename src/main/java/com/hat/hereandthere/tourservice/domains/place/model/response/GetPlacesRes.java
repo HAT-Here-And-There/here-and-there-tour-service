@@ -18,6 +18,7 @@ public class GetPlacesRes {
         private String id;
         private String name;
         private String imageUrl;
+        private Long chatCount;
     }
 
     public static GetPlacesRes from(GetPlacesPageDto dto) {
@@ -26,6 +27,7 @@ public class GetPlacesRes {
                 .id(place.getId())
                 .name(place.getName())
                 .imageUrl(place.getImageUrl())
+                    .chatCount(place.getChatCount())
                 .build())
             .collect(Collectors.toList());
 

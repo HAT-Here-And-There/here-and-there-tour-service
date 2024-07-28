@@ -8,6 +8,7 @@ import com.hat.hereandthere.tourservice.domains.area.entity.Area;
 import com.hat.hereandthere.tourservice.domains.place.entity.Place;
 import com.hat.hereandthere.tourservice.domains.place.entity.PlaceSyncHistory;
 import com.hat.hereandthere.tourservice.domains.place.model.dto.GetPlaceDetailDto;
+import com.hat.hereandthere.tourservice.domains.place.model.dto.GetPlaceMetaDto;
 import com.hat.hereandthere.tourservice.domains.place.model.dto.GetPlacesPageDto;
 import com.hat.hereandthere.tourservice.domains.place.model.dto.GetPlaceswithPageDto;
 import com.hat.hereandthere.tourservice.domains.place.model.response.TourApiGetPlacesPageRes;
@@ -113,6 +114,20 @@ public class PlaceService {
             .address(place.get().getAddress())
             .build();
     }
+
+   public GetPlaceMetaDto getPlaceMetadata(String placeId){
+        Optional<Place> optionalPlace = placeRepository.findById(placeId);
+
+        if (optionalPlace.isEmpty()) {
+            throw new IllegalArgumentException("Wrong place id");
+        }
+
+       return GetPlaceMetaDto.builder()
+               .placeId(placeId)
+               .majorRegionId(optionalPlace.get().getSigungu().getMajorRegion().getId())
+               .sigunguId(optionalPlace.get().getSigungu().getId())
+               .build();
+   }
 
     public void syncPlace() {
         Optional<PlaceSyncHistory> latestHistory = placeSyncHistoryRepository.findTopByIsSuccessOrderByTimestampDesc(
