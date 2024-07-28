@@ -1,6 +1,7 @@
 package com.hat.hereandthere.tourservice.domains.place;
 
 import com.hat.hereandthere.tourservice.domains.place.model.dto.GetPlaceDetailDto;
+import com.hat.hereandthere.tourservice.domains.place.model.dto.GetPlaceMetaDto;
 import com.hat.hereandthere.tourservice.domains.place.model.dto.GetPlacesPageDto;
 import com.hat.hereandthere.tourservice.domains.place.model.response.GetPlaceDetailRes;
 import com.hat.hereandthere.tourservice.domains.place.model.response.GetPlacesRes;
@@ -53,5 +54,16 @@ public class PlaceController {
         GetPlaceDetailRes res = GetPlaceDetailRes.from(dto);
 
         return new ResponseEntity<>(res, HttpStatus.OK);
+    }
+
+    @GetMapping("/meta/{placeId}")
+    public ResponseEntity<GetPlaceMetaDto> getPlaceMetadata(@PathVariable String placeId) {
+        try {
+            GetPlaceMetaDto dto = placeService.getPlaceMetadata(placeId);
+
+            return new ResponseEntity<>(dto, HttpStatus.OK);
+        } catch (IllegalArgumentException e) {
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        }
     }
 }
