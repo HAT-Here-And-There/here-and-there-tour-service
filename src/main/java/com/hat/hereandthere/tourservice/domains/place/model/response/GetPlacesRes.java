@@ -18,22 +18,20 @@ public class GetPlacesRes {
         private String id;
         private String name;
         private String imageUrl;
-        private Long chatCount;
     }
 
     public static GetPlacesRes from(GetPlacesPageDto dto) {
         List<Place> places = dto.getPlaces().stream()
-            .map(place -> Place.builder()
-                .id(place.getId())
-                .name(place.getName())
-                .imageUrl(place.getImageUrl())
-                    .chatCount(place.getChatCount())
-                .build())
-            .collect(Collectors.toList());
+                .map(place -> Place.builder()
+                        .id(place.getId())
+                        .name(place.getName())
+                        .imageUrl(place.getImageUrl())
+                        .build())
+                .collect(Collectors.toList());
 
         return GetPlacesRes.builder()
-            .places(places)
-            .totalPages(dto.getTotalPages())
-            .build();
+                .places(places)
+                .totalPages(dto.getTotalPages())
+                .build();
     }
 }
