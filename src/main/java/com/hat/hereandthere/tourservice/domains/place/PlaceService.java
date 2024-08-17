@@ -115,19 +115,20 @@ public class PlaceService {
             .build();
     }
 
-   public GetPlaceMetaDto getPlaceMetadata(String placeId){
+    public GetPlaceMetaDto getPlaceMetadata(String placeId) {
         Optional<Place> optionalPlace = placeRepository.findById(placeId);
 
         if (optionalPlace.isEmpty()) {
             throw new IllegalArgumentException("Wrong place id");
         }
 
-       return GetPlaceMetaDto.builder()
-               .placeId(placeId)
-               .majorRegionId(optionalPlace.get().getSigungu().getMajorRegion().getId())
-               .sigunguId(optionalPlace.get().getSigungu().getId())
-               .build();
-   }
+        return GetPlaceMetaDto.builder()
+                .placeId(placeId)
+                .majorRegionId(optionalPlace.get().getSigungu().getMajorRegion().getId())
+                .areaId(optionalPlace.get().getSigungu().getArea().getId())
+                .sigunguId(optionalPlace.get().getSigungu().getId())
+                .build();
+    }
 
     public void syncPlace() {
         Optional<PlaceSyncHistory> latestHistory = placeSyncHistoryRepository.findTopByIsSuccessOrderByTimestampDesc(
