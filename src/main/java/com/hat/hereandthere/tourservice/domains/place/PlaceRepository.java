@@ -3,16 +3,22 @@ package com.hat.hereandthere.tourservice.domains.place;
 import com.hat.hereandthere.tourservice.domains.place.entity.Place;
 import com.hat.hereandthere.tourservice.domains.place.entity.PlaceId;
 import com.hat.hereandthere.tourservice.domains.sigungu.entity.Sigungu;
+
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
+
+import jakarta.annotation.Nonnull;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
-public interface PlaceRepository extends JpaRepository<Place, PlaceId>{
+public interface PlaceRepository extends JpaRepository<Place, PlaceId> {
     @Query("select p from place p join fetch p.sigungu s join fetch s.majorRegion")
-    Page<Place> findAll(Pageable pageable);
+    Page<Place> findAll(@Nonnull Pageable pageable);
+
+    List<Place> findPlacesByIdIn(List<String> placeIds);
 
     Optional<Place> findById(String placeId);
 

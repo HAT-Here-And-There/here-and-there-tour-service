@@ -16,5 +16,6 @@ public class GetPlacesPageDto {
         private String id;
         private String name;
         private String imageUrl;
+        private int chatCount;
     }
 }
