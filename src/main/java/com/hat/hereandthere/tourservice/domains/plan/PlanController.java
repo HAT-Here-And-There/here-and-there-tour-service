@@ -49,7 +49,7 @@ public class PlanController {
         return ResponseEntity.status(HttpStatus.CREATED).body(new PostPlanResponse(createdPlanId));
     }
 
-    @PatchMapping("/{id}")
+    @PatchMapping("/{id}/daily-plans")
     public ResponseEntity<Object> patchPlan(@PathVariable Long id, @RequestBody PatchPlanRequest request) {
         planService.updatePlan(id, request);
         return ResponseEntity.ok().build();
