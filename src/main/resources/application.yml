@@ -1,6 +1,11 @@
 spring:
   application:
     name: tour-service
+  data:
+    web:
+      pageable:
+        one-indexed-parameters: true
+        default-page-size: 20
   datasource:
     url: jdbc:postgresql://${DB_HOST}:5432/${DB_NAME}
     username: ${DB_USERNAME}
